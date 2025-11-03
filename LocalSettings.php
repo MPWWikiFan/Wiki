@@ -16,6 +16,8 @@ $wgCanonicalServer = false;
 $wgDBname = 'my_wiki';
 $wgDBserver = 'localhost';
 $wgDBtype = 'mysql';
+$wgDBservers = false;
+$wgDBTableOptions = 'ENGINE=InnoDB, DEFAULT CHARSET=binary';
 $wgSitename = 'Matthews_Wiki'; // The user-facing website name as it will appear in search results etc.
 
 // File uploads configuration
@@ -33,7 +35,28 @@ $wgProhibitedFileExtensions = [
 ];
 $wgMaxUploadSize = 1000000000;
 $wgUploadMaintenance = false;
+$wgTrustedMediaFormats = [
+	MEDIATYPE_BITMAP,
+	MEDIATYPE_AUDIO, 
+	MEDIATYPE_VIDEO, 
+	"image/svg+xml", 
+	"application/pdf", 
+];
 $wgUseImageResize = true;
 $wgGenerateThumbnailOnParse = true;
 $wgShowArchiveThumbnails = true;
 $wgThumbLimits = [120, 150, 180, 200, 250, 300];
+
+// Email settings
+
+$wgEnableEmail = true;
+$wgAllowHTMLEmail = true;
+$wgEmailAuthentication = true;
+$wgEnableSpecialMute = true;
+$wgEnableUserEmailMuteList = true;
+$wgNewPasswordExpiry = 3600 * 24 * 7;
+$wgPasswordExpirationDays = 90;
+$wgPasswordReminderResendTime = 24;
+$wgUserEmailConfirmationTokenExpiry = 7 * 24 * 60 * 60;
+$wgUserEmailUseReplyTo = true;
+$wgEnotifUserTalk = true;
