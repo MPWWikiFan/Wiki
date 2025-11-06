@@ -60,3 +60,49 @@ $wgPasswordReminderResendTime = 24;
 $wgUserEmailConfirmationTokenExpiry = 7 * 24 * 60 * 60;
 $wgUserEmailUseReplyTo = true;
 $wgEnotifUserTalk = true;
+
+// Page titles, redirects, and namespaces
+
+$wgDisableHardRedirects = false;
+$wgFixDoubleRedirects = true;
+$wgInvalidRedirectTargets = [ 'Filepath', 'Mypage', 'Mytalk', 'Redirect', 'Mylog' ];
+$wgContentNamespaces = [ NS_MAIN ];
+$wgMetaNamespace = 'Project';
+$wgMetaNamespaceTalk = 'Project_talk';
+$wgNamespacesWithSubpages = [
+	NS_TALK => true,
+	NS_USER => true,
+	NS_USER_TALK => true,
+	NS_PROJECT => true,
+	NS_PROJECT_TALK => true,
+	NS_FILE_TALK => true,
+	NS_MEDIAWIKI => true,
+	NS_MEDIAWIKI_TALK => true,
+	NS_TEMPLATE => true,
+	NS_TEMPLATE_TALK => true,
+	NS_HELP => true,
+	NS_HELP_TALK => true,
+	NS_CATEGORY_TALK => true
+];
+
+// Parser
+
+$wgAllowDisplayTitle = true;
+$wgAllowExternalImages = false;
+$wgEnableImageWhitelist = true;
+$wgCleanSignatures = true;
+$wgEnableMagicLinks = [
+	'ISBN' => false,
+	'PMID' => false,
+	'RFC' => false,
+];
+$wgEnableScaryTranscluding = false;
+$wgParserEnableUserLanguage = true;
+$wgUrlProtocols = [
+	'bitcoin:', 'ftp://', 'ftps://', 'geo:', 'git://', 'gopher://', 'http://',
+	'https://', 'irc://', 'ircs://', 'magnet:', 'mailto:', 'matrix:', 'mms://',
+	'news:', 'nntp://', 'redis://', 'sftp://', 'sip:', 'sips:', 'sms:',
+	'ssh://', 'svn://', 'tel:', 'telnet://', 'urn:', 'worldwind://', 'xmpp:',
+	'//',
+];
+$wgRawHtml = false;
