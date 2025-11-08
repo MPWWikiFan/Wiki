@@ -106,3 +106,16 @@ $wgUrlProtocols = [
 	'//',
 ];
 $wgRawHtml = false;
+
+// Cookie settings
+
+$wgCookieSetOnAutoblock = false; // Let's not do this due to potential for extreme collateral damage
+$wgCookieSetOnIpBlock = false; // Same as above
+
+// Setup for the on-wiki internal search feature
+
+$wgAdvancedSearchHighlighting = true;
+$wgEnableSearchContributorsByIP = true;
+$wgNamespacesToBeSearchedDefault = [
+	NS_MAIN => true,
+];
