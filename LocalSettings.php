@@ -253,3 +253,94 @@ $wgUserRegistrationProviders = [
 $wgChangeCredentialsBlacklist = [
 	TemporaryPasswordAuthenticationRequest::class,
 ];
+
+// Access control and administration configuration
+
+$wgAutoblockExpiry = 86400;
+$wgBlockAllowsUTEdit = true;
+$wgDeleteRevisionsBatchSize = 1000;
+$wgEmailConfirmToEdit = false;
+$wgEnableDnsBlacklist = false;
+$wgPasswordAttemptThrottle = [
+	[ 'count' => 5, 'seconds' => 300 ],
+	[ 'count' => 150, 'seconds' => 60 * 60 * 48 ],
+];
+$wgRateLimits = [
+	'edit' => [
+		'ip' => [ 8, 60 ],
+		'newbie' => [ 8, 60 ],
+		'user' => [ 90, 60 ],
+	],
+	'move' => [
+		'newbie' => [ 2, 120 ],
+		'user' => [ 8, 60 ],
+	],
+	'upload' => [
+		'ip' => [ 8, 60 ],
+		'newbie' => [ 8, 60 ],
+	],
+	'rollback' => [
+		'user' => [ 10, 60 ],
+		'newbie' => [ 5, 120 ]
+	],
+	'mailpassword' => [
+		'ip' => [ 5, 3600 ],
+	],
+	'sendemail' => [
+		'ip' => [ 5, 86400 ],
+		'newbie' => [ 5, 86400 ],
+		'user' => [ 20, 86400 ],
+	],
+	'changeemail' => [
+		'ip-all' => [ 10, 3600 ],
+		'user' => [ 4, 86400 ]
+	],
+	'confirmemail' => [
+		'ip-all' => [ 10, 3600 ],
+		'user' => [ 4, 86400 ]
+	],
+	'purge' => [
+		'ip' => [ 30, 60 ],
+		'user' => [ 30, 60 ],
+	],
+	'linkpurge' => [
+		'ip' => [ 30, 60 ],
+		'user' => [ 30, 60 ],
+	],
+	'renderfile' => [
+		'ip' => [ 700, 30 ],
+		'user' => [ 700, 30 ],
+	],
+	'renderfile-nonstandard' => [
+		'ip' => [ 70, 30 ],
+		'user' => [ 70, 30 ],
+	],
+	'stashedit' => [
+		'ip' => [ 30, 60 ],
+		'newbie' => [ 30, 60 ],
+	],
+	'stashbasehtml' => [
+		'ip' => [ 5, 60 ],
+		'newbie' => [ 5, 60 ],
+	],
+	'changetags' => [
+		'ip' => [ 8, 60 ],
+		'newbie' => [ 8, 60 ],
+	],
+	'editcontentmodel' => [
+		'newbie' => [ 2, 120 ],
+		'user' => [ 8, 60 ],
+	],
+];
+$wgAccountCreationThrottle = 0;
+$wgApplyIpBlocksToXff = false; // Let's never do this due to the risk of collateral damage
+$wgAutoConfirmAge = 86400*7;
+$wgAutoConfirmCount = 25;
+$wgAutopromoteOnceLogInRC = false;
+$wgBlockCIDRLimit = [
+	'IPv4' => 16,
+	'IPv6' => 19,
+];
+$wgBlockDisablesLogin = false;
+$wgDeleteRevisionsLimit = 5000;
+$wgEnableMultiBlocks = false;
