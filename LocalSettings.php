@@ -119,3 +119,137 @@ $wgEnableSearchContributorsByIP = true;
 $wgNamespacesToBeSearchedDefault = [
 	NS_MAIN => true,
 ];
+
+// User accounts and authentication
+
+$wgAutoCreateTempUser = false;
+$wgInvalidUsernameCharacters = '@:>=';
+$wgMaxNameChars = 255;
+$wgMaxSigChars = 255;
+$wgReservedUsernames = [
+	'MediaWiki default', 
+	'Conversion script', 
+	'Maintenance script', 
+	'Template namespace initialisation script', 
+	'ScriptImporter', 
+	'Delete page script', 
+	'Move page script', 
+	'Command line script', 
+	'Unknown user', 
+	'msg:double-redirect-fixer',
+	'msg:usermessage-editor', 
+	'msg:proxyblocker', 
+	'msg:sorbs', 
+	'msg:spambot_username',
+	'msg:autochange-username', 
+];
+use MediaWiki\Password\PasswordPolicyChecks;
+$wgPasswordPolicy = [
+	'policies' => [
+		'bureaucrat' => [
+			'MinimalPasswordLength' => 10,
+			'MinimumPasswordLengthToLogin' => 1,
+		],
+		'sysop' => [
+			'MinimalPasswordLength' => 10,
+			'MinimumPasswordLengthToLogin' => 1,
+		],
+		'interface-admin' => [	// 1.32+
+			'MinimalPasswordLength' => 10,
+			'MinimumPasswordLengthToLogin' => 1,
+		],
+		'bot' => [
+			'MinimalPasswordLength' => 10,
+			'MinimumPasswordLengthToLogin' => 1,
+		],
+		'default' => [
+			'MinimalPasswordLength' => [ 'value' => 8, 'suggestChangeOnLogin' => true ],
+			'PasswordCannotBeSubstringInUsername' => [
+				'value' => true,
+				'suggestChangeOnLogin' => true
+			],
+			'PasswordCannotMatchDefaults' => [ 'value' => true, 'suggestChangeOnLogin' => true ],
+			'MaximalPasswordLength' => [ 'value' => 4096, 'suggestChangeOnLogin' => true ],
+			'PasswordNotInCommonList' => [ 'value' => true, 'suggestChangeOnLogin' => true ],
+		],
+	],
+	'checks' => [
+		'MinimalPasswordLength' => [ PasswordPolicyChecks::class, 'checkMinimalPasswordLength' ],
+		'MinimumPasswordLengthToLogin' => [ PasswordPolicyChecks::class, 'checkMinimumPasswordLengthToLogin' ],
+		'PasswordCannotBeSubstringInUsername' => [ PasswordPolicyChecks::class, 'checkPasswordCannotBeSubstringInUsername' ],
+		'PasswordCannotMatchDefaults' => [ PasswordPolicyChecks::class, 'checkPasswordCannotMatchDefaults' ],
+		'MaximalPasswordLength' => [ PasswordPolicyChecks::class, 'checkMaximalPasswordLength' ],
+		'PasswordNotInCommonList' => [ PasswordPolicyChecks::class, 'checkPasswordNotInCommonList' ],
+	],
+];
+$wgPasswordDefault = 'pbkdf2';
+$wgPasswordConfig = [
+	'A' => [
+		'class' => MWOldPassword::class,
+	],
+	'B' => [
+		'class' => MWSaltedPassword::class,
+	],
+	'pbkdf2-legacyA' => [
+		'class' => LayeredParameterizedPassword::class,
+		'types' => [
+			'A',
+			'pbkdf2',
+		],
+	],
+	'pbkdf2-legacyB' => [
+		'class' => LayeredParameterizedPassword::class,
+		'types' => [
+			'B',
+			'pbkdf2',
+		],
+	],
+	'bcrypt' => [
+		'class' => BcryptPassword::class,
+		'cost' => 9,
+	],
+	'pbkdf2' => [
+		'class' => Pbkdf2PasswordUsingOpenSSL::class,
+		'algo' => 'sha512',
+		'cost' => '30000',
+		'length' => '64',
+	],
+	'argon2' => [	// 1.33+
+		'class' => Argon2Password::class,
+		'algo' => 'auto',
+	],
+];
+$wgAllowSecuritySensitiveOperationIfCannotReauthenticate = false;
+$wgPasswordResetRoutes = [
+	'username' => true,
+	'email' => true,
+];
+$wgSessionProviders = [
+	\MediaWiki\Session\CookieSessionProvider::class => [
+		'class' => \MediaWiki\Session\CookieSessionProvider::class,
+		'args' => [ [
+			'priority' => 30,
+		] ],
+	],
+	\MediaWiki\Session\BotPasswordSessionProvider::class => [
+		'class' => \MediaWiki\Session\BotPasswordSessionProvider::class,
+		'args' => [ [
+			'priority' => 75,
+		] ],
+		'services' => [
+			'GrantsInfo'
+		],
+	],
+];
+$wgUserRegistrationProviders = [
+	LocalUserRegistrationProvider::TYPE => [
+		'class' => LocalUserRegistrationProvider::class,
+		'services' => [
+			'UserFactory',
+			'ConnectionProvider',
+		]
+	]
+];
+$wgChangeCredentialsBlacklist = [
+	TemporaryPasswordAuthenticationRequest::class,
+];
