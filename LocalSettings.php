@@ -357,7 +357,7 @@ $wgGroupPermissions => [
 		'viewmyprivateinfo' => true, // These next three settings allow all users to configure their own personal preferences, although in reality this only applies for registered users.
 		'editmyprivateinfo' => true,
 		'editmyoptions' => true,
-		],
+	],
 	'user' => [
 		'move' => false, // By default the software allows any registered user to move (rename) a page. But this can cause disruption if abused, so better to restrict it to a more specific group.
 		'move-subpages' => false,
@@ -426,9 +426,35 @@ $wgGroupPermissions => [
 		'apihighlimits' => true,
 		'browsearchive' => true,
 		'noratelimit' => true,
-		'mergehistory' => false, // While the software allows admins to physically merge the history of two pages by default, this is a highly technical permission that can be restricted to a higher group
+		'mergehistory' => false, // While the software allows admins to physically merge the history of two pages by default, this is a typically restricted to a higher group
 		'applychangetags' => true,
 		'changetags' => true,
 		'managechangetags' => true,
 		'deletechangetags' => true,
 	],
+	'bureaucrat' => [
+		'userrights' => false, // Bureaucrats are "super admins" of sorts. They can perform many restricted tasks that "regular" admins cannot. However, many installations do not allow bureaucrats to have full access to permissions, despite the software granting them this access by default
+		'mergehistory' => true,
+		'bigdelete' => true,
+		'editcontentmodel' => true,
+		'editinterface' => true,
+		'editsitecss' => true,
+		'editsitejson' => true,
+		'editsitejs' => true,
+		'editusercss' => true,
+		'edituserjson' => true,
+		'edituserjs' => true,
+		'renameuser' => false, // By default bureaucrats can rename user accounts, but this is typically restricted to a higher group on most installations
+	],
+	'steward' => [
+		'userrights' => true, // Stewards are typically the highest ranking group. They have full access to permissions and access to every part of the interface across the entire site
+		'renameuser' => true,
+		'siteadmin' => true,
+		'hideuser' => true, // Stewards can supress (hide) information and user accounts from all users, including admins, when required
+		'suppressrevision' => true,
+		'viewsuppressed' => true,
+		'suppressionlog' => true,
+	],
+	'interface-admin' => [],
+	'suppress' => [],
+];
