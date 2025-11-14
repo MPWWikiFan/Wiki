@@ -444,11 +444,9 @@ $wgGroupPermissions => [
 		'editusercss' => true,
 		'edituserjson' => true,
 		'edituserjs' => true,
-		'renameuser' => false, // By default bureaucrats can rename user accounts, but this is typically restricted to a higher group on most installations
 	],
 	'steward' => [
 		'userrights' => true, // Stewards are typically the highest ranking group. They have full access to permissions and access to every part of the interface across the entire site
-		'renameuser' => true,
 		'siteadmin' => true,
 		'hideuser' => true, // Stewards can supress (hide) information and user accounts from all users, including admins, when required
 		'suppressrevision' => true,
@@ -457,4 +455,43 @@ $wgGroupPermissions => [
 	],
 	'interface-admin' => [],
 	'suppress' => [],
+
+	// The following groups are used for "unbundling", where a specific set of administrative permissions can be granted to users who are not full administrators.
+
+	'confirmed' => [
+		'autoconfirmed' => true,
+		'editsemiprotected' => true,
+		'move' => true,
+		'upload' => true,
+	],
+	'patroller' => [
+		'autopatrol' => true,
+		'patrol' => true,
+	],
+	'uploader' => [
+		'reupload' => true,
+		'reupload-shared' => true,
+	],
+	'page-mover' => [
+		'move-subpages' => true,
+		'move-rootuserpages' => true,
+		'move-categorypages' => true,
+		'movefile' => true,
+		'suppressredirect' => true,
+	],
+	'rollbacker' => [
+		'rollback' => true,
+	],
+	'importer' => [
+		'import' => true,
+		'importupload' => true,
+	],
 ];
+
+// Admins can add or remove any of the unbundled groups. Bureaucrats can add or remove admins and bot accounts. Only stewards can add/remove bureaucrats
+
+$wgAddGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer'];
+$wgAddGroups['bureaucrat'] = ['sysop', 'bot'];
+$wgRemoveGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer'];
+$wgRemoveGroups['bureaucrat'] = ['sysop', 'bot'];
+$wgGroupsRemoveFromSelf = [ '*' => true ]; // Any user can remove themseleves (but only themselves) from any group they happen to be in
