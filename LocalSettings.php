@@ -334,9 +334,6 @@ $wgRateLimits = [
 ];
 $wgAccountCreationThrottle = 0;
 $wgApplyIpBlocksToXff = false; // Let's never do this due to the risk of collateral damage
-$wgAutoConfirmAge = 86400*7; // Accounts will be considered "autoconfirmed" after existing for 1 week...
-$wgAutoConfirmCount = 25; // ...and having made 25 total edits
-$wgAutopromoteOnceLogInRC = false;
 $wgBlockCIDRLimit = [
 	'IPv4' => 16,
 	'IPv6' => 19,
@@ -344,6 +341,21 @@ $wgBlockCIDRLimit = [
 $wgBlockDisablesLogin = false;
 $wgDeleteRevisionsLimit = 5000;
 $wgEnableMultiBlocks = false;
+
+// The following settings define and enable autopromotion, which is what controls the functionality of the "autoconfirmed" user group below
+
+$wgAutopromote = [
+	'autoconfirmed' => [ '&',
+		[ APCOND_EDITCOUNT, null],
+		[ APCOND_AGE, null ],
+	],
+];
+$wgAutopromoteOnce = [
+	'onEdit' => [],
+];
+$wgAutoConfirmAge = 86400*7; // Accounts will be considered "autoconfirmed" after existing for 1 week...
+$wgAutoConfirmCount = 25; // ...and having made 25 total edits
+$wgAutopromoteOnceLogInRC = false;
 
 // Group Permissions. This is the core of what controls the user-facing aspects of site functionality!
 
@@ -486,12 +498,17 @@ $wgGroupPermissions => [
 		'import' => true,
 		'importupload' => true,
 	],
+	'flooder' => [
+		'bot' => true,
+	],
 ];
 
 // Admins can add or remove any of the unbundled groups. Bureaucrats can add or remove admins and bot accounts. Only stewards can add/remove bureaucrats
 
-$wgAddGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer'];
+$wgAddGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer', 'flooder'];
 $wgAddGroups['bureaucrat'] = ['sysop', 'bot'];
-$wgRemoveGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer'];
+$wgRemoveGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer', 'flooder'];
 $wgRemoveGroups['bureaucrat'] = ['sysop', 'bot'];
+$wgGroupsAddtoSelf['importer'] = ['flooder']; // The "flooder" flag allows users to mark their own accounts as bots to avoid flooding recent changes or watchlists when performing a batch task. It is most commonly used when importing large numbers of pages or templates from elsewhere
 $wgGroupsRemoveFromSelf = [ '*' => true ]; // Any user can remove themseleves (but only themselves) from any group they happen to be in
+$wgImplicitGroups = [ '*', 'user', 'autoconfirmed' ]; // These groups cannot be managed by admins and so are hidden from the configuration pages
