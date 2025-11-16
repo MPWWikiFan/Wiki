@@ -341,6 +341,11 @@ $wgBlockCIDRLimit = [
 $wgBlockDisablesLogin = false;
 $wgDeleteRevisionsLimit = 5000;
 $wgEnableMultiBlocks = false;
+$wgRestrictionTypes = [ 'create', 'edit', 'move', 'upload' ];
+$wgRestrictionLevels = [ '', 'autoconfirmed', 'sysop' ];
+$wgNamespaceProtection = [];
+$wgCascadingRestrictionLevels = [ 'sysop', ];
+$wgSemiprotectedRestrictionLevels ['autoconfirmed'];
 
 // The following settings define and enable autopromotion, which is what controls the functionality of the "autoconfirmed" user group below
 
@@ -514,3 +519,24 @@ $wgRemoveGroups['bureaucrat'] = ['sysop', 'bot'];
 $wgGroupsAddtoSelf['importer'] = ['flooder'];
 $wgGroupsRemoveFromSelf = [ '*' => true ];
 $wgImplicitGroups = [ '*', 'user', 'autoconfirmed' ]; // These groups cannot be managed by admins and so are hidden from the configuration pages
+
+// This block of code prevents common spam patterns (generally stuff involving pornography, phishing scams, or other fake clickbait things) from being saved to the site
+
+$wgSpamRegex = ["/".                        
+                "s-e-x|zoofilia|sexyongpin|grusskarte|geburtstagskarten|".
+                "(animal|cam|chat|dog|hardcore|lesbian|live|online|voyeur)sex|sex(cam|chat)|adult(chat|live)|".
+                "adult(porn|video|web.)|(hardcore|teen|xxx)porn|".
+                "live(girl|nude|video)|camgirl|".
+                "spycam|casino-online|online-casino|kontaktlinsen|cheapest-phone|".
+                "laser-eye|eye-laser|fuelcellmarket|lasikclinic|cragrats|parishilton|".
+                "paris-(hilton|tape)|2large|fuel(ing)?-dispenser|huojia|".
+                "jinxinghj|telemati[ck]sone|a-mortgage|diamondabrasives|".
+                "reuterbrook|sex-(with|plugin|zone)|lazy-stars|eblja|liuhecai|".
+                "buy-viagra|-cialis|-levitra|boy-and-girl-kissing|".
+                "dirare\.com|".
+                "overflow\s*:\s*auto|".
+                "height\s*:\s*[0-4]px|".
+                "==<center>\[|".
+                "\<\s*a\s*href|".
+                "display\s*:\s*none".
+                "/i"];
