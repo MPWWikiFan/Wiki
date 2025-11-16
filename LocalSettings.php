@@ -364,41 +364,41 @@ $wgGroupPermissions => [
 		'createaccount' => true, // All users can create new accounts on the website
 		'read' => true, // All users can read the site. Don't disable this or else things will break!
 		'edit' => true, // All users can edit pages on the site (unless they are protected). The foundation of the wiki concept!
-		'createpage' => true, // For some reason the software requires separate permissions to create pages and to edit them... not sure why.
-		'createtalk' => true, // Create and edit discussion pages
-		'viewmyprivateinfo' => true, // These next three settings allow all users to configure their own personal preferences, although in reality this only applies for registered users.
+		'createpage' => true,
+		'createtalk' => true,
+		'viewmyprivateinfo' => true,
 		'editmyprivateinfo' => true,
 		'editmyoptions' => true,
 	],
 	'user' => [
-		'move' => false, // By default the software allows any registered user to move (rename) a page. But this can cause disruption if abused, so better to restrict it to a more specific group.
+		'move' => false,
 		'move-subpages' => false,
 		'move-rootuserpages' => false,
 		'move-categorypages' => false,
 		'movefile' => false,
-		'upload' => false, // The software also allows any registered user to upload files by default, but restricting to autoconfirmed (see below) is safer and prevents spam.
+		'upload' => false,
 		'reupload' => false,
 		'reupload-shared' => false,
-		'minoredit' => true, // All registered users can mark changes as a "minor edit"
-		'editmyusercss' => true, // Registered accounts can have their own CSS, JS, and JSON stylesheets to customize the interface for themseleves
+		'minoredit' => true,
+		'editmyusercss' => true,
 		'editmyuserjson' => true,
 		'editmyuserjs' => true,
 		'editmyuserjsredirect' => true,
-		'sendemail' => true, // All registered accounts can use the internal user-to-user email system
-		'applychangetags' => false, // For some unknown reason the software doesn't consider the application of tags (identifiers/filters) to edits to be an administrative action, but it really is.
+		'sendemail' => true,
+		'applychangetags' => false,
 		'changetags' => false,
-		'editcontentmodel' => false, // Same goes for changing content models of pages
-		'viewmywatchlist' => true, // All registered users can have a "watchlist" of pages that they want to be notified about when changes are made to them.
+		'editcontentmodel' => false,
+		'viewmywatchlist' => true,
 		'editmywatchlist' => true,
 	],
 	'autoconfirmed' => [
 		'autoconfirmed' => true, // Once an account has existed for one week and has made 25 edits, they can bypass some of the anti-spam rate limits...
 		'editsemiprotected' => true, // ...As well as edit pages that are "semi-protected"...
-		'move' => true, ... // And move pages and upload files
+		'move' => true,  // ...And move pages and upload files
 		'upload' => true,
 	],
 	'bot' => [
-		'bot' => true, // This group can be assigned to usernames that are associated with automated scripts used for maintenance purposes to prevent flooding of changelogs, among other things
+		'bot' => true, // This group can be assigned to usernames that are associated with automated scripts used for maintenance purposes
 		'autoconfirmed' => true,
 		'editsemiprotected' => true,
 		'nominornewtalk' => true,
@@ -408,13 +408,13 @@ $wgGroupPermissions => [
 	],
 	'sysop' => [
 		'block' => true, // Sysops, shorthand for System Operators and generally referred to as Administrators, can block certain users from editing pages if they do so disruptively
-		'unblockself' => true, // But admins can also unblock their own accounts if another admin blocks them inappropriately
+		'unblockself' => true,
 		'delete' => true, // Admins can also delete pages from public view (but they're not actually truly "deleted" from the database)
-		'bigdelete' => false, // Deleting pages with large histories can overwhelm and crash the servers, so it should be handled with care and limited to a higher group
+		'bigdelete' => false,
 		'deletedhistory' => true, // Deleting a page only hides it from the general public; admins can still view the deleted text and revision history of said pages
 		'deletedtext' => true,
-		'undelete' => true, // They can also undelete, or restore into public viewing, a previously deleted page
-		'editinterface' => false, // By default admins can manage the site-wide stylesheets. But this can be dangerous in the hands of a compromised admin account, so the latest software versions restrict this to a higher group
+		'undelete' => true,
+		'editinterface' => false,
 		'editsitejson' => false,
 		'edituserjson' => false,
 		'import' => true, // Admins can import pages from other sites running the MediaWiki software, in the form of an XML dump
@@ -424,28 +424,28 @@ $wgGroupPermissions => [
 		'move-categorypages' => true,
 		'movefile' => true,
 		'suppressredirect' => true,
-		'patrol' => true, // Admins can "patrol", or review, edits made by other users, and all edits made by admins are automatically patrolled by the software
+		'patrol' => true,
 		'autopatrol' => true,
 		'protect' => true, // Admins can also protect specific pages from being edited, either by all non-admins, or only from non-autoconfirmed accounts
-		'editprotected' => true, // This permission allows admin accounts to edit pages even if they are protected
+		'editprotected' => true,
 		'rollback' => true, // "Rollback" reverts all consecutive changes by a specific user to a given page in one click
 		'reupload' => true, // Just like page moves, admins also have access to advanced features with uploading files
 		'reupload-shared' => true,
-		'unwatchedpages' => true, // This is a database report that shows pages which nobody has on their watchlist. It doesn't serve much purpose currently, but was useful in earlier versions of the software
+		'unwatchedpages' => true,
 		'ipblock-exempt' => true,
-		'blockemail' => true, // In addition to blocking users from editing, admins can also disable the internal email feature for specific users
-		'markbotedits' => true, // These are some highly technical permissions that are used internally and only rarely affect the user-facing experience
+		'blockemail' => true,
+		'markbotedits' => true,
 		'apihighlimits' => true,
 		'browsearchive' => true,
 		'noratelimit' => true,
-		'mergehistory' => false, // While the software allows admins to physically merge the history of two pages by default, this is a typically restricted to a higher group
+		'mergehistory' => false,
 		'applychangetags' => true,
 		'changetags' => true,
 		'managechangetags' => true,
 		'deletechangetags' => true,
 	],
 	'bureaucrat' => [
-		'userrights' => false, // Bureaucrats are "super admins" of sorts. They can perform many restricted tasks that "regular" admins cannot. However, many installations do not allow bureaucrats to have full access to permissions, despite the software granting them this access by default
+		'userrights' => false, // Bureaucrats are "super admins" of sorts. They can perform a few tasks that admins cannot, and are responsible for adding/removing admin status
 		'mergehistory' => true,
 		'bigdelete' => true,
 		'editcontentmodel' => true,
@@ -504,11 +504,13 @@ $wgGroupPermissions => [
 ];
 
 // Admins can add or remove any of the unbundled groups. Bureaucrats can add or remove admins and bot accounts. Only stewards can add/remove bureaucrats
+// The "flooder" flag allows users to mark their own accounts as bots to avoid flooding recent changes or watchlists when performing a batch task (such as importing content from elsewhere)
+// Any user can remove themseleves (but only themselves) from any group they happen to be in
 
 $wgAddGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer', 'flooder'];
 $wgAddGroups['bureaucrat'] = ['sysop', 'bot'];
 $wgRemoveGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer', 'flooder'];
 $wgRemoveGroups['bureaucrat'] = ['sysop', 'bot'];
-$wgGroupsAddtoSelf['importer'] = ['flooder']; // The "flooder" flag allows users to mark their own accounts as bots to avoid flooding recent changes or watchlists when performing a batch task. It is most commonly used when importing large numbers of pages or templates from elsewhere
-$wgGroupsRemoveFromSelf = [ '*' => true ]; // Any user can remove themseleves (but only themselves) from any group they happen to be in
+$wgGroupsAddtoSelf['importer'] = ['flooder'];
+$wgGroupsRemoveFromSelf = [ '*' => true ];
 $wgImplicitGroups = [ '*', 'user', 'autoconfirmed' ]; // These groups cannot be managed by admins and so are hidden from the configuration pages
