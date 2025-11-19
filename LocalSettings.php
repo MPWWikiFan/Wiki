@@ -107,19 +107,6 @@ $wgUrlProtocols = [
 ];
 $wgRawHtml = false;
 
-// Cookie settings
-
-$wgCookieSetOnAutoblock = false; // Let's not do this due to potential for extreme collateral damage
-$wgCookieSetOnIpBlock = false; // Same as above
-
-// Setup for the on-wiki internal search feature
-
-$wgAdvancedSearchHighlighting = true;
-$wgEnableSearchContributorsByIP = true;
-$wgNamespacesToBeSearchedDefault = [
-	NS_MAIN => true,
-];
-
 // User accounts and authentication
 
 $wgAutoCreateTempUser = false;
@@ -341,6 +328,8 @@ $wgBlockCIDRLimit = [
 $wgBlockDisablesLogin = false;
 $wgDeleteRevisionsLimit = 5000;
 $wgEnableMultiBlocks = false;
+$wgCookieSetOnAutoblock = false; // Let's not do this due to potential for extreme collateral damage
+$wgCookieSetOnIpBlock = false; // Same as above
 $wgRestrictionTypes = [ 'create', 'edit', 'move', 'upload' ];
 $wgRestrictionLevels = [ '', 'autoconfirmed', 'sysop' ];
 $wgNamespaceProtection = [];
@@ -540,3 +529,35 @@ $wgSpamRegex = ["/".
                 "\<\s*a\s*href|".
                 "display\s*:\s*none".
                 "/i"];
+
+// MediaWiki maintains a set of logs that document various technical actions taken on the site. This array defines the default types of logging
+
+$wgLogTypes = [
+	'',
+	'block',
+	'protect',
+	'rights',
+	'delete',
+	'upload',
+	'move',
+	'import',
+	'interwiki',
+	'patrol',
+	'merge',
+	'suppress',
+	'tag',
+	'managetags',
+	'contentmodel',
+	'renameuser',
+];
+$wgPageCreationLog = false; // Newer versions of the software have added a separate log for page creations, which is rather unnecessary and just creates clutter
+
+// Miscellaneous settings
+
+$wgEnableEditRecovery = true;
+$wgEnableProtectionIndicators = true;
+$wgPingback = true;
+$wgShowLogoutConfirmation = true;
+
+// END OF FILE
+?>
