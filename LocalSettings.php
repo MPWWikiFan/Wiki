@@ -440,6 +440,7 @@ $wgGroupPermissions => [
 	],
 	'bureaucrat' => [
 		'userrights' => false, // Bureaucrats are "super admins" of sorts. They can perform a few tasks that admins cannot, and are responsible for adding/removing admin status
+		'renameuser' => false,
 		'mergehistory' => true,
 		'bigdelete' => true,
 		'editcontentmodel' => true,
@@ -453,6 +454,7 @@ $wgGroupPermissions => [
 	],
 	'steward' => [
 		'userrights' => true, // Stewards are typically the highest ranking group. They have full access to permissions and access to every part of the interface across the entire site
+		'renameuser' => true,
 		'siteadmin' => true,
 		'hideuser' => true, // Stewards can supress (hide) information and user accounts from all users, including admins, when required
 		'suppressrevision' => true,
@@ -558,6 +560,3 @@ $wgEnableEditRecovery = true;
 $wgEnableProtectionIndicators = true;
 $wgPingback = true;
 $wgShowLogoutConfirmation = true;
-
-// END OF FILE
-?>
