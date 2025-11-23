@@ -1,0 +1,72 @@
+{
+	"name": "EditAccount",
+	"version": "1.3.5",
+	"author": [
+		"Łukasz Garczewski",
+		"Jack Phoenix",
+		"WikiTeq"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:EditAccount",
+	"descriptionmsg": "editaccount-desc",
+	"type": "specialpage",
+	"requires": {
+		"MediaWiki": ">= 1.41.0"
+	},
+	"license-name": "GPL-2.0-or-later",
+	"GroupPermissions": {
+		"*": {
+			"editaccount": false
+		},
+		"staff": {
+			"editaccount": true
+		}
+	},
+	"AvailableRights": [
+		"editaccount"
+	],
+	"SpecialPages": {
+		"CloseAccount": {
+			"class": "CloseAccount",
+			"services": [
+				"UserFactory",
+				"UserGroupManager",
+				"UserNameUtils"
+			]
+		},
+		"EditAccount": {
+			"class": "EditAccount",
+			"services": [
+				"DBLoadBalancer",
+				"LinkRenderer",
+				"PasswordFactory",
+				"UserFactory",
+				"UserIdentityLookup",
+				"UserNameUtils",
+				"UserOptionsManager",
+				"MainWANObjectCache"
+			]
+		}
+	},
+	"LogTypes": [
+		"editaccnt"
+	],
+	"LogRestrictions": {
+		"editaccnt": "editaccount"
+	},
+	"LogActionsHandlers": {
+		"editaccnt/*": "LogFormatter"
+	},
+	"MessagesDirs": {
+		"EditAccount": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"EditAccountAliases": "EditAccount.alias.php"
+	},
+	"AutoloadClasses": {
+		"CloseAccount": "includes/specials/SpecialCloseAccount.php",
+		"EditAccount": "includes/specials/SpecialEditAccount.php"
+	},
+	"manifest_version": 1
+}
