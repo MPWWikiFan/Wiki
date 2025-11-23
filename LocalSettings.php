@@ -61,6 +61,18 @@ $wgUserEmailConfirmationTokenExpiry = 7 * 24 * 60 * 60;
 $wgUserEmailUseReplyTo = true;
 $wgEnotifUserTalk = true;
 
+// Localization and Appearance Settings
+
+$wgLocaltimezone = 'America/New_York';
+$wgEditSubmitButtonLabelPublish = true;
+$wgMimeType = 'text/html';
+$wgSend404Code = true;
+$wgDefaultSkin = 'vector';
+$wgFallbackSkin = 'monobook';
+$wgUseCombinedLoginLink = true;
+$wgVectorUseIconWatch = true;
+$wgVectorUseSimpleSearch = true;
+
 // Page titles, redirects, and namespaces
 
 $wgDisableHardRedirects = false;
@@ -530,6 +542,8 @@ $wgShowLogoutConfirmation = true;
 
 // Extensions and Skins. The fun part of MediaWiki!
 
+wfLoadSkin( 'Vector' );
+wfLoadSkin( 'MonoBook' );
 wfLoadExtension( 'AbuseFilter' );
 wfLoadExtension( 'CheckUser' );
 
