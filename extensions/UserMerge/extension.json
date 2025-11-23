@@ -1,0 +1,99 @@
+{
+	"name": "UserMerge",
+	"version": "1.10.2",
+	"author": [
+		"Tim Laqua",
+		"Thomas Gries",
+		"Matthew April"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:UserMerge",
+	"descriptionmsg": "usermerge-desc",
+	"license-name": "GPL-2.0-or-later",
+	"requires": {
+		"MediaWiki": ">= 1.44.0"
+	},
+	"type": "specialpage",
+	"AvailableRights": [
+		"usermerge"
+	],
+	"SpecialPages": {
+		"UserMerge": {
+			"class": "MediaWiki\\Extension\\UserMerge\\SpecialUserMerge",
+			"services": [
+				"UserFactory",
+				"UserGroupManager",
+				"DatabaseBlockStore"
+			]
+		}
+	},
+	"LogTypes": [
+		"usermerge"
+	],
+	"LogNames": {
+		"usermerge": "usermerge-logpage"
+	},
+	"LogHeaders": {
+		"usermerge": "usermerge-logpagetext"
+	},
+	"ActionFilteredLogs": {
+		"usermerge": {
+			"mergeuser": [
+				"mergeuser"
+			],
+			"deleteuser": [
+				"deleteuser"
+			]
+		}
+	},
+	"LogActionsHandlers": {
+		"usermerge/*": "MediaWiki\\Extension\\UserMerge\\UserMergeLogFormatter"
+	},
+	"MessagesDirs": {
+		"UserMerge": [
+			"i18n"
+		]
+	},
+	"Hooks": {
+		"UserGetReservedNames": "main",
+		"ContributionsToolLinks": "main"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "MediaWiki\\Extension\\UserMerge\\Hooks",
+			"services": [
+				"ConfigFactory",
+				"UserFactory",
+				"UserGroupManager"
+			]
+		}
+	},
+	"ExtensionMessagesFiles": {
+		"UserMergeAlias": "UserMerge.alias.php"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\UserMerge\\": "includes/"
+	},
+	"AutoloadClasses": {
+		"MergeUser": "includes/MergeUser.php",
+		"MediaWiki\\Extension\\UserMerge\\MergeUser": "includes/MergeUser.php",
+		"IUserMergeLogger": "includes/IUserMergeLogger.php",
+		"MediaWiki\\Extension\\UserMerge\\IUserMergeLogger": "includes/IUserMergeLogger.php",
+		"UserMergeLogger": "includes/UserMergeLogger.php",
+		"MediaWiki\\Extension\\UserMerge\\UserMergeLogger": "includes/UserMergeLogger.php"
+	},
+	"ConfigRegistry": {
+		"usermerge": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
+	},
+	"config": {
+		"UserMergeEnableDelete": {
+			"value": true
+		},
+		"UserMergeProtectedGroups": {
+			"value": [
+				"sysop"
+			],
+			"merge_strategy": "provide_default"
+		}
+	},
+	"manifest_version": 2
+}
