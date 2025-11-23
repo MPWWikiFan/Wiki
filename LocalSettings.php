@@ -548,3 +548,28 @@ $wgGroupPermissions['checkuser']['abusefilter-privatedetails'] => true;
 $wgGroupPermissions['checkuser']['abusefilter-privatedetails-log'] => true;
 $wgGroupPermissions['oversight']['abusefilter-hide-log'] => true;
 $wgGroupPermissions['oversight']['abusefilter-hidden-log'] => true;
+$wgAbuseFilterActions [
+    'throttle' => true,
+    'warn' => true,
+    'disallow' => true,
+    'blockautopromote' => true,
+    'block' => true,
+    'rangeblock' => true,
+    'degroup' => true,
+    'tag' => true,
+];
+$wgAbuseFilterActionRestrictions [
+	"throttle" => false,
+	"warn" => false,
+	"disallow" => false,
+	"blockautopromote" => false,
+	"block" => true,
+	"rangeblock" => true,
+	"degroup" => true,
+	"tag" => false,
+];
+$wgAbuseFilterBlockDuration = 'indefinite;
+$wgAbuseFilterAnonBlockDuration = '72 hours';
+$wgAbuseFilterBlockAutopromoteDuration = 7;
+$wgAbuseFilterLogIP = true;
+$wgAbuseFilterLogPrivateDetailsAccess = true;
