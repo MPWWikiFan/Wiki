@@ -61,6 +61,18 @@ $wgUserEmailConfirmationTokenExpiry = 7 * 24 * 60 * 60;
 $wgUserEmailUseReplyTo = true;
 $wgEnotifUserTalk = true;
 
+// Localization and Appearance Settings
+
+$wgLocaltimezone = 'America/New_York';
+$wgEditSubmitButtonLabelPublish = true;
+$wgMimeType = 'text/html';
+$wgSend404Code = true;
+$wgDefaultSkin = 'vector';
+$wgFallbackSkin = 'monobook';
+$wgUseCombinedLoginLink = true;
+$wgVectorUseIconWatch = true;
+$wgVectorUseSimpleSearch = true;
+
 // Page titles, redirects, and namespaces
 
 $wgDisableHardRedirects = false;
@@ -456,59 +468,26 @@ $wgGroupPermissions => [
 		'userrights' => true, // Stewards are typically the highest ranking group. They have full access to permissions and access to every part of the interface across the entire site
 		'renameuser' => true,
 		'siteadmin' => true,
-		'hideuser' => true, // Stewards can supress (hide) information and user accounts from all users, including admins, when required
+	],
+	'oversight' => [
+		'hideuser' => true, // Oversight suppresses deleted information from everyone, including administrators. Only used for severe cases, and only assignable by stewards
 		'suppressrevision' => true,
 		'viewsuppressed' => true,
 		'suppressionlog' => true,
 	],
 	'interface-admin' => [],
 	'suppress' => [],
-
-	// The following groups are used for "unbundling", where a specific set of administrative permissions can be granted to users who are not full administrators.
-
-	'confirmed' => [
-		'autoconfirmed' => true,
-		'editsemiprotected' => true,
-		'move' => true,
-		'upload' => true,
-	],
-	'patroller' => [
-		'autopatrol' => true,
-		'patrol' => true,
-	],
-	'uploader' => [
-		'reupload' => true,
-		'reupload-shared' => true,
-	],
-	'page-mover' => [
-		'move-subpages' => true,
-		'move-rootuserpages' => true,
-		'move-categorypages' => true,
-		'movefile' => true,
-		'suppressredirect' => true,
-	],
-	'rollbacker' => [
-		'rollback' => true,
-	],
-	'importer' => [
-		'import' => true,
-		'importupload' => true,
-	],
-	'flooder' => [
-		'bot' => true,
 	],
 ];
 
-// Admins can add or remove any of the unbundled groups. Bureaucrats can add or remove admins and bot accounts. Only stewards can add/remove bureaucrats
-// The "flooder" flag allows users to mark their own accounts as bots to avoid flooding recent changes or watchlists when performing a batch task (such as importing content from elsewhere)
-// Any user can remove themseleves (but only themselves) from any group they happen to be in
+// Admins can grant or revoke the "abusefilter" permission, which allows access to modify abuse filters
+// Bureaucrats can grant or revoke admin and bot permissions
+// Only stewards can grant or revoke checkuser and oversight permissions
 
-$wgAddGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer', 'flooder'];
+$wgAddGroups['sysop'] = ['abusefilter'];
 $wgAddGroups['bureaucrat'] = ['sysop', 'bot'];
-$wgRemoveGroups['sysop'] = ['confirmed', 'patroller', 'uploader', 'page-mover', 'rollbacker', 'importer', 'flooder'];
+$wgRemoveGroups['sysop'] = ['abusefilter'];
 $wgRemoveGroups['bureaucrat'] = ['sysop', 'bot'];
-$wgGroupsAddtoSelf['importer'] = ['flooder'];
-$wgGroupsRemoveFromSelf = [ '*' => true ];
 $wgImplicitGroups = [ '*', 'user', 'autoconfirmed' ]; // These groups cannot be managed by admins and so are hidden from the configuration pages
 
 // This block of code prevents common spam patterns (generally stuff involving pornography, phishing scams, or other fake clickbait things) from being saved to the site
@@ -560,3 +539,67 @@ $wgEnableEditRecovery = true;
 $wgEnableProtectionIndicators = true;
 $wgPingback = true;
 $wgShowLogoutConfirmation = true;
+
+// Extensions and Skins. The fun part of MediaWiki!
+
+wfLoadSkin( 'Vector' );
+wfLoadSkin( 'MonoBook' );
+wfLoadExtension( 'AbuseFilter' );
+wfLoadExtension( 'CheckUser' );
+
+// AbuseFilter configuration
+
+$wgGroupPermissions['user']['abusefilter-view'] = true;
+$wgGroupPermissions['user']['abusefilter-log'] = true;
+$wgGroupPermissions['autoconfirmed']['abusefilter-log-detail'] = true;
+$wgGroupPermissions['sysop']['abusefilter-view-private'] = true;
+$wgGroupPermissions['sysop']['abusefilter-log-private'] = true;
+$wgGroupPermissions['abusefilter']['abusefilter-modify'] = true;
+$wgGroupPermissions['abusefilter']['abusefilter-revert'] = true;
+$wgGroupPermissions['bureaucrat']['abusefilter-modify-restricted'] = true;
+$wgGroupPermissions['bureaucrat']['abusefilter-access-protected-vars'] = true;
+$wgGroupPermissions['bureaucrat']['abusefilter-protected-vars-log'] = true;
+$wgGroupPermissions['checkuser']['abusefilter-privatedetails'] = true;
+$wgGroupPermissions['checkuser']['abusefilter-privatedetails-log'] = true;
+$wgGroupPermissions['oversight']['abusefilter-hide-log'] = true;
+$wgGroupPermissions['oversight']['abusefilter-hidden-log'] = true;
+$wgAbuseFilterActions [
+    'throttle' => true,
+    'warn' => true,
+    'disallow' => true,
+    'blockautopromote' => true,
+    'block' => true,
+    'rangeblock' => true,
+    'degroup' => true,
+    'tag' => true,
+];
+$wgAbuseFilterActionRestrictions [
+	"throttle" => false,
+	"warn" => false,
+	"disallow" => false,
+	"blockautopromote" => false,
+	"block" => true,
+	"rangeblock" => true,
+	"degroup" => true,
+	"tag" => false,
+];
+$wgAbuseFilterBlockDuration = 'indefinite';
+$wgAbuseFilterAnonBlockDuration = '72 hours';
+$wgAbuseFilterBlockAutopromoteDuration = 7;
+$wgAbuseFilterLogIP = true;
+$wgAbuseFilterLogPrivateDetailsAccess = true;
+
+// CheckUser configuration
+
+$wgGroupPermissions['checkuser']['checkuser'] = true;
+$wgGroupPermissions['checkuser']['checkuser-log'] = true;
+$wgCUDMaxAge = 7776000;
+$wgCheckUserForceSummary = true;
+$wgCheckUserCIDRLimit = [ 'IPv4' => 16, 'IPv6' => 19 ];
+$wgCheckUserEnableSpecialInvestigate = false;
+$wgCheckUserLogLogins = true;
+$wgCheckUserLogSuccessfulBotLogins = true;
+$wgCheckUserMaximumRowCount = 500;
+$wgCheckUserMaximumIPsToAutoblock = 1;
+$wgCheckUserClientHintsEnabled = false;
+$wgCheckUserWriteToCentralIndex = true;
