@@ -330,6 +330,11 @@ $wgRateLimits = [
 		'newbie' => [ 2, 120 ],
 		'user' => [ 8, 60 ],
 	],
+	'badoath' => [
+		'&can-bypass' => false,
+		'user' => [ 10, 60 ],
+		'user-global' => [ 10, 60 ],
+	],
 ];
 $wgAccountCreationThrottle = 0;
 $wgApplyIpBlocksToXff = false; // Let's never do this due to the risk of collateral damage
@@ -482,7 +487,7 @@ $wgGroupPermissions => [
 
 // Admins can grant or revoke the "abusefilter" permission, which allows access to modify abuse filters
 // Bureaucrats can grant or revoke admin and bot permissions
-// Only stewards can grant or revoke checkuser and oversight permissions
+// Only stewards can grant or revoke bureaucrat, checkuser, or oversight permissions
 
 $wgAddGroups['sysop'] = ['abusefilter'];
 $wgAddGroups['bureaucrat'] = ['sysop', 'bot'];
@@ -511,28 +516,6 @@ $wgSpamRegex = ["/".
                 "display\s*:\s*none".
                 "/i"];
 
-// MediaWiki maintains a set of logs that document various technical actions taken on the site. This array defines the default types of logging
-
-$wgLogTypes = [
-	'',
-	'block',
-	'protect',
-	'rights',
-	'delete',
-	'upload',
-	'move',
-	'import',
-	'interwiki',
-	'patrol',
-	'merge',
-	'suppress',
-	'tag',
-	'managetags',
-	'contentmodel',
-	'renameuser',
-];
-$wgPageCreationLog = false; // Newer versions of the software have added a separate log for page creations, which is rather unnecessary and just creates clutter
-
 // Miscellaneous settings
 
 $wgEnableEditRecovery = true;
@@ -545,7 +528,15 @@ $wgShowLogoutConfirmation = true;
 wfLoadSkin( 'Vector' );
 wfLoadSkin( 'MonoBook' );
 wfLoadExtension( 'AbuseFilter' );
+wfLoadExtension( 'AntiSpoof' );
 wfLoadExtension( 'CheckUser' );
+wfLoadExtension( 'EditAccount' );
+wfLoadExtension( 'MsUpload' );
+wfLoadExtension( 'Nuke' );
+wfLoadExtension( 'OATHAuth' );
+wfLoadExtension( 'UserMerge' );
+
+$wgGroupPermissions['staff'] => []; // A few extensions define a "staff" user group which isn't needed when a steward group is in use
 
 // AbuseFilter configuration
 
@@ -589,6 +580,11 @@ $wgAbuseFilterBlockAutopromoteDuration = 7;
 $wgAbuseFilterLogIP = true;
 $wgAbuseFilterLogPrivateDetailsAccess = true;
 
+// Allow admins to bypass AntiSpoof when required
+
+$wgGroupPermissions['sysop']['override-antispoof'] = true;
+$wgGroupPermissions['bureaucrat']['override-antispoof'] = false; // For some reason the software explictly gives bureaucrats a permission that admins already have, which just creates clutter
+
 // CheckUser configuration
 
 $wgGroupPermissions['checkuser']['checkuser'] = true;
@@ -603,3 +599,39 @@ $wgCheckUserMaximumRowCount = 500;
 $wgCheckUserMaximumIPsToAutoblock = 1;
 $wgCheckUserClientHintsEnabled = false;
 $wgCheckUserWriteToCentralIndex = true;
+
+// Allow stewards to manage user accounts
+
+$wgGroupPermissions['steward']['editaccount'] = true;
+
+// MsUpload configuration
+
+$wgMSU_useDragDrop = true; 
+$wgMSU_showAutoCat = true; 
+$wgMSU_checkAutoCat = true; 
+$wgMSU_useMsLinks = false; 
+$wgMSU_confirmReplace = true; 
+$wgMSU_imgParams = '400px'; 
+$wgMSU_uploadsize = '100mb';
+
+// Restrict mass deletions using the Nuke tool to bureaucrats instead of admins
+
+$wgGroupPermissions['sysop']['nuke'] = false;
+$wgGroupPermissions['bureaucrat']['nuke'] = true;
+
+// All registered user accounts can choose to enable 2 factor authentication if they wish
+// However, accounts that have admin rights or higher must have 2FA enabled due to the risks assoicated with said accounts being hacked
+// Bureaucrats can check to see if a particular user account has 2FA enabled before granting sensitive permissions
+// Stewards can query the database to see a list of all accounts that have 2FA enabled. They can also manually disable 2FA for an individual account if the user gets locked out, and view a log of all 2FA-related changes
+
+$wgGroupPermissions['user']['oathauth-enable'] = true;
+$wgGroupPermissions['bureaucrat']['oathauth-verify-user'] = true;
+$wgGroupPermissions['steward']['oathauth-api-all'] = true;
+$wgGroupPermissions['steward']['oathauth-disable-for-user'] = true;
+$wgGroupPermissions['steward']['oathauth-view-log'] = true;
+$wgOATHRequiredForGroups => ['sysop', 'bureaucrat', 'checkuser', 'oversight', 'steward'];
+
+// Stewards can merge two accounts together, as well as delete accounts by merging their contributions into an "anonymous" user. But, accounts with admin rights or higher cannot be merged or deleted
+
+$wgGroupPermissions['steward']['usermerge'] = true;
+$wgUserMergeProtectedGroups = [ 'sysop', 'bureaucrat', 'checkuser', 'oversight', 'steward' ];
