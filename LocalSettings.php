@@ -531,23 +531,24 @@ $wgShowLogoutConfirmation = true;
 // Extensions and Skins. The fun part of MediaWiki!
 
 wfLoadExtension( 'AbuseFilter' );
+wfLoadExtension( 'CheckUser' );
 
 // AbuseFilter configuration
 
-$wgGroupPermissions['user']['abusefilter-view'] => true;
-$wgGroupPermissions['user']['abusefilter-log'] => true;
-$wgGroupPermissions['autoconfirmed']['abusefilter-log-detail'] => true;
-$wgGroupPermissions['sysop']['abusefilter-view-private'] => true;
-$wgGroupPermissions['sysop']['abusefilter-log-private'] => true;
-$wgGroupPermissions['abusefilter']['abusefilter-modify'] => true;
-$wgGroupPermissions['abusefilter']['abusefilter-revert'] => true;
-$wgGroupPermissions['bureaucrat']['abusefilter-modify-restricted'] => true;
-$wgGroupPermissions['bureaucrat']['abusefilter-access-protected-vars'] => true;
-$wgGroupPermissions['bureaucrat']['abusefilter-protected-vars-log'] => true;
-$wgGroupPermissions['checkuser']['abusefilter-privatedetails'] => true;
-$wgGroupPermissions['checkuser']['abusefilter-privatedetails-log'] => true;
-$wgGroupPermissions['oversight']['abusefilter-hide-log'] => true;
-$wgGroupPermissions['oversight']['abusefilter-hidden-log'] => true;
+$wgGroupPermissions['user']['abusefilter-view'] = true;
+$wgGroupPermissions['user']['abusefilter-log'] = true;
+$wgGroupPermissions['autoconfirmed']['abusefilter-log-detail'] = true;
+$wgGroupPermissions['sysop']['abusefilter-view-private'] = true;
+$wgGroupPermissions['sysop']['abusefilter-log-private'] = true;
+$wgGroupPermissions['abusefilter']['abusefilter-modify'] = true;
+$wgGroupPermissions['abusefilter']['abusefilter-revert'] = true;
+$wgGroupPermissions['bureaucrat']['abusefilter-modify-restricted'] = true;
+$wgGroupPermissions['bureaucrat']['abusefilter-access-protected-vars'] = true;
+$wgGroupPermissions['bureaucrat']['abusefilter-protected-vars-log'] = true;
+$wgGroupPermissions['checkuser']['abusefilter-privatedetails'] = true;
+$wgGroupPermissions['checkuser']['abusefilter-privatedetails-log'] = true;
+$wgGroupPermissions['oversight']['abusefilter-hide-log'] = true;
+$wgGroupPermissions['oversight']['abusefilter-hidden-log'] = true;
 $wgAbuseFilterActions [
     'throttle' => true,
     'warn' => true,
@@ -568,8 +569,23 @@ $wgAbuseFilterActionRestrictions [
 	"degroup" => true,
 	"tag" => false,
 ];
-$wgAbuseFilterBlockDuration = 'indefinite;
+$wgAbuseFilterBlockDuration = 'indefinite';
 $wgAbuseFilterAnonBlockDuration = '72 hours';
 $wgAbuseFilterBlockAutopromoteDuration = 7;
 $wgAbuseFilterLogIP = true;
 $wgAbuseFilterLogPrivateDetailsAccess = true;
+
+// CheckUser configuration
+
+$wgGroupPermissions['checkuser']['checkuser'] = true;
+$wgGroupPermissions['checkuser']['checkuser-log'] = true;
+$wgCUDMaxAge = 7776000;
+$wgCheckUserForceSummary = true;
+$wgCheckUserCIDRLimit = [ 'IPv4' => 16, 'IPv6' => 19 ];
+$wgCheckUserEnableSpecialInvestigate = false;
+$wgCheckUserLogLogins = true;
+$wgCheckUserLogSuccessfulBotLogins = true;
+$wgCheckUserMaximumRowCount = 500;
+$wgCheckUserMaximumIPsToAutoblock = 1;
+$wgCheckUserClientHintsEnabled = false;
+$wgCheckUserWriteToCentralIndex = true;
