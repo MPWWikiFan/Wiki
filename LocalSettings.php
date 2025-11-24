@@ -622,7 +622,8 @@ $wgGroupPermissions['bureaucrat']['nuke'] = true;
 // All registered user accounts can choose to enable 2 factor authentication if they wish
 // However, accounts that have admin rights or higher must have 2FA enabled due to the risks assoicated with said accounts being hacked
 // Bureaucrats can check to see if a particular user account has 2FA enabled before granting sensitive permissions
-// Stewards can query the database to see a list of all accounts that have 2FA enabled. They can also manually disable 2FA for an individual account if the user gets locked out, and view a log of all 2FA-related changes
+// Stewards can query the database to see a list of all accounts that have 2FA enabled.
+// They can also manually disable 2FA for an individual account if the user gets locked out, and view a log of all 2FA-related changes
 
 $wgGroupPermissions['user']['oathauth-enable'] = true;
 $wgGroupPermissions['bureaucrat']['oathauth-verify-user'] = true;
